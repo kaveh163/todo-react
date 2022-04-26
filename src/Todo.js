@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Button, InputGroup, Input } from "reactstrap";
+import { Table, Button, InputGroup, Input, Row, Col, Container } from "reactstrap";
+import "./Todo.css";
 // const InitialTodo = [
 //   {
 //     id: 1,
@@ -157,71 +158,81 @@ function Todo() {
     // }
     // }
   }, [state]);
-  
 
   return (
     <>
-      <div>
-        <Table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Todo</th>
-              <th>Remove Item</th>
-              <th>Update Item</th>
-            </tr>
-          </thead>
-          <tbody>
-            {state.map((item, i) => {
-              return (
-                <tr key={i}>
-                  <td>{item.id}</td>
-                  <td>{item.todo}</td>
-                  <td>
-                    <Button color="primary" onClick={() => handleRemove(item)}>
-                      Remove Item
-                    </Button>
-                  </td>
-                  <td className="d-flex justify-content-center">
-                    <div className="input-group w-50">
-                      <input
-                        type="text"
-                        ref={(el) => (handleInput.current[i] = el)}
-                        className="form-control"
-                        style={{ width: "70px!important" }}
-                      />
+      <Container fluid>
+        <div className="container-fluid">
+          <Table className="">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Todo</th>
+                <th>Remove</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {state.map((item, i) => {
+                return (
+                  <tr key={i}>
+                    <td>{item.id}</td>
+                    <td>{item.todo}</td>
+                    <td>
                       <button
-                        className="btn btn-primary"
-                        onClick={() =>
-                          handleUpdate(handleInput.current[i], item)
-                        }
+                        onClick={() => handleRemove(item)}
+                        className="btn btn-sm btn-primary"
                       >
-                        Update
+                        Remove
                       </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-        <br />
-        <button className="btn btn-success" onClick={() => setToggle(!toggle)}>
-          Add Item
-        </button>
-        <br />
-        <br />
-        {toggle && (
-          <div className="d-flex justify-content-center">
-            <div className="input-group w-50">
-              <input className="form-control" ref={addInput} />
-              <button className="btn btn-danger" onClick={handleAdd}>
-                Add
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+                    </td>
+                    <td className="d-flex justify-content-center">
+                      <div className="input-group input-group-sm">
+                        <input
+                          type="text"
+                          ref={(el) => (handleInput.current[i] = el)}
+                          className="form-control"
+                          style={{ width: "70px!important" }}
+                        />
+                        <button
+                          className="btn btn-sm btn-primary"
+                          onClick={() =>
+                            handleUpdate(handleInput.current[i], item)
+                          }
+                        >
+                          Update
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+          <br />
+          <button
+            className="btn btn-success"
+            onClick={() => setToggle(!toggle)}
+          >
+            Add Item
+          </button>
+          <br />
+          <br />
+          {toggle && (
+            <Col sm="12" className="col">
+              <div className="">
+                <div className="input-group  input-size">
+                  <input className="form-control" ref={addInput} />
+                  <button className="btn btn-danger" onClick={handleAdd}>
+                    Add
+                  </button>
+                </div>
+              </div>
+            </Col>
+          )}
+        </div>
+      </Container>
     </>
   );
 }

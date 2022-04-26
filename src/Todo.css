@@ -1,0 +1,10 @@
+@media screen and (max-width: 576px) {
+    .input-size {
+        max-width: 100%;
+    }
+}
+@media screen and (min-width: 577px) {
+    .input-size {
+        max-width: 50%;
+    }
+}
