@@ -1,6 +1,14 @@
 import { useEffect, useReducer, useRef, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Button, InputGroup, Input, Row, Col, Container } from "reactstrap";
+import {
+  Table,
+  Button,
+  InputGroup,
+  Input,
+  Row,
+  Col,
+  Container,
+} from "reactstrap";
 import "./Todo.css";
 // const InitialTodo = [
 //   {
@@ -96,8 +104,10 @@ function Todo() {
   useEffect(() => {
     if (state.length === 0) {
       let data = JSON.parse(localStorage.getItem("storeName"));
-      count = data.length;
-      dispatch({ type: "lsSet", data: data });
+      if (data) {
+        count = data.length;
+        dispatch({ type: "lsSet", data: data });
+      }
     }
   }, []);
 
