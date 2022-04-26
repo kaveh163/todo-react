@@ -27,18 +27,21 @@ const reducer = (state, action) => {
       //     return true;
       //   }
       // });
-      const removeValIndex = action.id -1;
-      console.log('remove', removeValIndex);
-      console.log('stateRemove', state);
+      const removeValIndex = action.id - 1;
+      console.log("remove", removeValIndex);
+      console.log("stateRemove", state);
       state.splice(removeValIndex, 1);
+      console.log("stateRemove2", state);
       count = state.length;
+      if (count === 0) {
+        localStorage.setItem("storeName", JSON.stringify([]));
+      }
       return state.map((item, index) => {
-        let obj ={};
-        obj['id'] = index + 1;
-        obj['todo'] = item.todo;
-        return obj
-      })
-      
+        let obj = {};
+        obj["id"] = index + 1;
+        obj["todo"] = item.todo;
+        return obj;
+      });
     }
     case "update": {
       return state.map((item) => {
@@ -59,8 +62,8 @@ const reducer = (state, action) => {
       return state;
     }
     case "lsSet": {
-      console.log('reducestate', state);
-      console.log('reducestate2', action.data);
+      console.log("reducestate", state);
+      console.log("reducestate2", action.data);
       return action.data;
     }
     default:
@@ -88,6 +91,15 @@ function Todo() {
     update.value = "";
     dispatch({ type: "update", id: item.id, updateVal: updateValue });
   };
+
+  useEffect(() => {
+    if (state.length === 0) {
+      let data = JSON.parse(localStorage.getItem("storeName"));
+      count = data.length;
+      dispatch({ type: "lsSet", data: data });
+    }
+  }, []);
+
   useEffect(() => {
     // console.log("useEffect");
     // let data = JSON.parse(localStorage.getItem("data"));
@@ -96,50 +108,56 @@ function Todo() {
     //   data = [];
     //   localStorage.setItem("data", JSON.stringify(data));
     // } else {
-      // if(state.length === 0) {
-      //   dispatch({type: "lsSet", data: data})
-      // } else {
-      //   localStorage.setItem('data', JSON.stringify(state));
-      // }
-      // if (state.length === 0) {
-      //   console.log("state");
-      //   let refData = JSON.parse(localStorage.getItem("data"));
-      //   console.log(refData);
-      //   dispatch({ type: "lsSet", data: refData });
-      // } else {
-      //   data = [...state];
-      //   localStorage.setItem("data", JSON.stringify(data));
-      // }
+    // if(state.length === 0) {
+    //   dispatch({type: "lsSet", data: data})
+    // } else {
+    //   localStorage.setItem('data', JSON.stringify(state));
+    // }
+    // if (state.length === 0) {
+    //   console.log("state");
+    //   let refData = JSON.parse(localStorage.getItem("data"));
+    //   console.log(refData);
+    //   dispatch({ type: "lsSet", data: refData });
+    // } else {
+    //   data = [...state];
+    //   localStorage.setItem("data", JSON.stringify(data));
+    // }
     // }
 
     let array;
     let bool;
     // console.log("state1", state);
-    
+
     array = JSON.parse(localStorage.getItem("storeName"));
     // console.log('array', array);
-    
+
     if (localStorage.getItem("storeName") === null) {
       array = [];
       localStorage.setItem("storeName", JSON.stringify(array));
     } else {
-      
+      array = [...state];
+      localStorage.setItem("storeName", JSON.stringify(array));
       // console.log("state2", state)
-      if (state.length === 0) {
-        // console.log("state3", state);
-        let data = JSON.parse(localStorage.getItem("storeName"));
-        count = data.length;
-        
-        // console.log('data', data);
-        dispatch({ type: "lsSet", data: data });
-      } else {
-        // console.log('state4', state)
-        array = [...state];
-        // console.log('array2', array);
-        localStorage.setItem("storeName", JSON.stringify(array));
-      }
+      // if (state.length === 0) {
+
+      // console.log("state3", state);
+
+      // let data = JSON.parse(localStorage.getItem("storeName"));
+      // count = data.length;
+
+      // console.log('data', data);
+
+      // dispatch({ type: "lsSet", data: data });
     }
+    // else {
+    // console.log('state4', state)
+    // array = [...state];
+    // console.log('array2', array);
+    // localStorage.setItem("storeName", JSON.stringify(array));
+    // }
+    // }
   }, [state]);
+  
 
   return (
     <>
